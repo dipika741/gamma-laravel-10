@@ -417,4 +417,6 @@ public function update(Request $request, $id)
     {
         return response()->json(SubSubCategory::where('subcategory_id', $subcategoryId)->get());
     }
+
+    
 }

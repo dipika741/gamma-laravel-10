@@ -30,6 +30,7 @@ class SubcategorySeeder extends Seeder
                 Subcategory::create([
                     'category_id' => $category->id,
                     'name' => $subName,
+                    'slug' => Str::slug($subName),
                 ]);
             }
         }
