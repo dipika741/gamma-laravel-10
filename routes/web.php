@@ -25,7 +25,8 @@ Route::post('/logout', function () {
 */
 
 Route::get('/', function () {
-    return redirect()->route('admin.products.index');
+    //return redirect()->route('admin.products.index');
+    return view('home');
 });
 
 // Admin Routes

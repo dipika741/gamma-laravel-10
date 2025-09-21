@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+       // Share categories with all views
+    View::composer('*', function ($view) {
+        $view->with('headerCategories', Category::with('subcategories')->get());
+    });
     }
 }
