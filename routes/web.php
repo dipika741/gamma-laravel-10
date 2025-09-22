@@ -8,9 +8,8 @@ use App\Http\Controllers\SubSubCategoryController;
 use App\Http\Controllers\Admin\ProductImageController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
-
-//use App\Http\Controllers\ProductController;
+//use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
+use App\Http\Controllers\FrontendProductController;
 
 
 Route::post('/logout', function () {
@@ -30,23 +29,40 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('products')->group(function () {
-    // category listing (e.g., /products/laboratory-equipment)
-    Route::get('{category}', [FrontendProductController::class, 'category'])
-        ->name('products.category');
 
-    // subcategory listing (e.g., /products/laboratory-equipment/autoclave)
-    Route::get('{category}/{subcategory}', [FrontendProductController::class, 'subcategory'])
+Route::prefix('products')->group(function () {
+    Route::get('/{categorySlug}', [FrontendProductController::class, 'listing'])
+        ->name('products.listing');
+
+    Route::get('/{categorySlug}/{subcategorySlug}', [FrontendProductController::class, 'listing'])
         ->name('products.subcategory');
 
-    // sub-subcategory listing (e.g., /products/laboratory-equipment/autoclave/vertical)
-    Route::get('{category}/{subcategory}/{subsubcategory}', [FrontendProductController::class, 'subsubcategory'])
+    Route::get('/{categorySlug}/{subcategorySlug}/{subSubCategorySlug}', [FrontendProductController::class, 'listing'])
         ->name('products.subsubcategory');
 
-    // product details (works for any depth)
-    Route::get('{category}/{subcategory?}/{subsubcategory?}/{product}', [FrontendProductController::class, 'show'])
+    Route::get('/{categorySlug}/{productSlug}', [FrontendProductController::class, 'show'])
         ->name('products.show');
 });
+
+
+// Route::prefix('products')->group(function () {
+//     // category listing (e.g., /products/laboratory-equipment)
+//     Route::get('{category}', [FrontendProductController::class, 'category'])
+//         ->name('products.category');
+
+//     // subcategory listing (e.g., /products/laboratory-equipment/autoclave)
+//     Route::get('{category}/{subcategory}', [FrontendProductController::class, 'subcategory'])
+//         ->name('products.subcategory');
+
+//     // sub-subcategory listing (e.g., /products/laboratory-equipment/autoclave/vertical)
+//     Route::get('{category}/{subcategory}/{subsubcategory}', [FrontendProductController::class, 'subsubcategory'])
+//         ->name('products.subsubcategory');
+
+//     // product details (works for any depth)
+//     Route::get('{category}/{subcategory?}/{subsubcategory?}/{product}', [FrontendProductController::class, 'show'])
+//         ->name('products.show');
+
+// });
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
