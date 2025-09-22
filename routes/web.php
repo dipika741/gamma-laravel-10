@@ -40,8 +40,11 @@ Route::prefix('products')->group(function () {
     Route::get('/{categorySlug}/{subcategorySlug}/{subSubCategorySlug}', [FrontendProductController::class, 'listing'])
         ->name('products.subsubcategory');
 
-    Route::get('/{categorySlug}/{productSlug}', [FrontendProductController::class, 'show'])
-        ->name('products.show');
+    //Route::get('/{categorySlug}/{productSlug}', [FrontendProductController::class, 'show'])->name('products.show');
+
+        // ✅ Product details (works for category / subcategory / sub-subcategory levels)
+    Route::get('/{categorySlug}/{slug1?}/{slug2?}/{productSlug}', [FrontendProductController::class, 'show'])
+    ->name('products.show');
 });
 
 

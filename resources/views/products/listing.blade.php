@@ -89,7 +89,13 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $product->name }}</h5>
                                     <p class="card-text text-muted">{{ Str::limit($product->short_description, 80) }}</p>
-                                    <a href="{{ route('products.show', [$category->slug, $product->slug]) }}" class="btn btn-primary btn-sm">View Details</a>
+                                    <a href="{{ route('products.show', [
+    'categorySlug' => $category->slug,
+    'slug1' => $subcategory->slug ?? '$',
+    'slug2' => $subSubCategory->slug ?? '$',
+    'productSlug' => $product->slug
+]) }}" 
+class="btn btn-primary btn-sm">View Details</a>
                                 </div>
                             </div>
                         </div>

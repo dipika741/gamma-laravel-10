@@ -35,13 +35,20 @@ class FrontendProductController extends Controller
         return view('products.listing', compact('category', 'subcategory', 'subSubCategory', 'products'));
     }
 
-    public function show($categorySlug, $productSlug)
+    public function show($categorySlug, $slug1 = null, $slug2 = null, $productSlug = null)
     {
+        // If $productSlug is null → it means product slug is in $slug1
+        if (!$productSlug) {
+            $productSlug = $slug2 ?? $slug1;
+        }
+    
         $category = Category::where('slug', $categorySlug)->firstOrFail();
+    
         $product = Product::where('slug', $productSlug)
             ->where('category_id', $category->id)
             ->firstOrFail();
-
+    
         return view('products.show', compact('category', 'product'));
     }
+    
 }
