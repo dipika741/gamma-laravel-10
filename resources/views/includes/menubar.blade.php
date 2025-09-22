@@ -13,16 +13,6 @@
               <li><a href="{{ url('/') }}">Home</a></li>
               <li><a href="{{ url('/about') }}">About Us</a></li>
               <li class="has-children"><a href="#">Products</a>
-                <!-- <ul class="sub-menu">
-                  <li><a href="#">Laboratory Equipment</a></li>
-                  <li><a href="#">Analytical Instruments</a></li>
-                  <li><a href="#">Material Testing Equipment</a></li>
-                  <li><a href="#">HPLC Consumables</a></li>
-                  <li><a href="#">Laboratory Glasswares</a></li>
-                  <li><a href="#">Laboratory Plasticwares</a></li>
-                  <li><a href="#">Laboratory Furnitures</a></li>
-                  <li><a href="#">Food Testing Equipment</a></li>
-                </ul> -->
                 <ul class="menu">
         @foreach($headerCategories as $category)
             <li class="menu-item has-dropdown">

@@ -4,12 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\SubSubCategoryController;
-// use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
-//use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
-use App\Http\Controllers\FrontendProductController;
+use App\Http\Controllers\Frontend\FrontendProductController;
 
 
 Route::post('/logout', function () {
@@ -40,32 +38,11 @@ Route::prefix('products')->group(function () {
     Route::get('/{categorySlug}/{subcategorySlug}/{subSubCategorySlug}', [FrontendProductController::class, 'listing'])
         ->name('products.subsubcategory');
 
-    //Route::get('/{categorySlug}/{productSlug}', [FrontendProductController::class, 'show'])->name('products.show');
-
-        // ✅ Product details (works for category / subcategory / sub-subcategory levels)
+    // ✅ Product details (works for category / subcategory / sub-subcategory levels)
     Route::get('/{categorySlug}/{slug1?}/{slug2?}/{productSlug}', [FrontendProductController::class, 'show'])
     ->name('products.show');
 });
 
-
-// Route::prefix('products')->group(function () {
-//     // category listing (e.g., /products/laboratory-equipment)
-//     Route::get('{category}', [FrontendProductController::class, 'category'])
-//         ->name('products.category');
-
-//     // subcategory listing (e.g., /products/laboratory-equipment/autoclave)
-//     Route::get('{category}/{subcategory}', [FrontendProductController::class, 'subcategory'])
-//         ->name('products.subcategory');
-
-//     // sub-subcategory listing (e.g., /products/laboratory-equipment/autoclave/vertical)
-//     Route::get('{category}/{subcategory}/{subsubcategory}', [FrontendProductController::class, 'subsubcategory'])
-//         ->name('products.subsubcategory');
-
-//     // product details (works for any depth)
-//     Route::get('{category}/{subcategory?}/{subsubcategory?}/{product}', [FrontendProductController::class, 'show'])
-//         ->name('products.show');
-
-// });
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -92,19 +69,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('products-data', [ProductController::class, 'indexData'])->name('products.data');
 
     // Product Images
-//Route::delete('product-images/{id}', [ProductImageController::class, 'destroy'])->name('product-images.destroy');
-//Route::resource('product-images', ProductImageController::class)->only(['store', 'destroy']);
+    Route::post('product-images', [ProductImageController::class, 'store'])
+        ->name('product-images.store');
 
+    Route::delete('product-images/{id}', [ProductImageController::class, 'destroy'])
+        ->name('product-images.destroy');
 
-// Product Images
-Route::post('product-images', [ProductImageController::class, 'store'])
-    ->name('product-images.store');
-
-Route::delete('product-images/{id}', [ProductImageController::class, 'destroy'])
-    ->name('product-images.destroy');
-
-Route::post('product-images/{id}/set-thumbnail', [ProductImageController::class, 'setThumbnail'])
-    ->name('product-images.setThumbnail');
+    Route::post('product-images/{id}/set-thumbnail', [ProductImageController::class, 'setThumbnail'])
+        ->name('product-images.setThumbnail');
 
     Route::delete('product-images/{id}', [ProductImageController::class, 'deleteImage'])->name('product-images.destroy');
 
