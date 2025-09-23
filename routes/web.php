@@ -27,6 +27,10 @@ Route::get('/', function () {
 });
 
 
+// ✅ Product details (works for category level only )
+
+Route::get('/product/{categorySlug}/{productSlug}', [FrontendProductController::class, 'showcategoryslugonly'])->name('product.showcategoryslugonly');
+
 
 Route::prefix('products')->group(function () {
     Route::get('/{categorySlug}', [FrontendProductController::class, 'listing'])
@@ -39,8 +43,9 @@ Route::prefix('products')->group(function () {
         ->name('products.subsubcategory');
 
     // ✅ Product details (works for category / subcategory / sub-subcategory levels)
-    Route::get('/{categorySlug}/{slug1?}/{slug2?}/{productSlug}', [FrontendProductController::class, 'show'])
-    ->name('products.show');
+    Route::get('/{categorySlug}/{slug1?}/{slug2?}/{productSlug}', [FrontendProductController::class, 'showallslug'])->name('products.showallslug');
+
+
 });
 
 
