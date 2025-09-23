@@ -1,29 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="msapplication-TileColor" content="#0E0E0E">
-  <meta name="template-color" content="#0E0E0E">
-  <meta name="description" content="@yield('meta_description', 'Index page')">
-  <meta name="keywords" content="@yield('meta_keywords', 'index, page')">
-  <meta name="author" content="">
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/imgs/template/favicon.ico') }}">
-  <link href="{{ asset('assets/css/style.css?v=3.0.0') }}" rel="stylesheet">
-  <title>@yield('title', 'Gamma Scientific')</title>
-</head>
-<body>
-<div id="preloader-active">
-  <div class="preloader d-flex align-items-center justify-content-center">
-    <div class="preloader-inner position-relative">
-      <div class="text-center">
-        <img class="mb-10" src="{{ asset('assets/imgs/template/favicon.png') }}" alt="#">
-        <div class="preloader-dots ml-75"></div>
-      </div>
-    </div>
-  </div>
-</div>
+<header class="header sticky-bar">
+    <div class="container">
+        <div class="main-header">
+            <div class="header-left">
+                <div class="header-logo">
+                    <a class="d-flex" href="{{ url('/') }}">
+                        <img alt="#" src="{{ asset('assets/imgs/template/logo.png') }}">
+                    </a>
+                </div>
 
-@include('includes.topbar')
-@include('includes.menubar')
+                {{-- Desktop Navigation --}}
+                <div class="header-nav">
+                    <nav class="nav-main-menu d-none d-xl-block">
+                        <ul class="main-menu">
+                            <li><a href="{{ url('/') }}">Home</a></li>
+                            <li><a href="{{ url('/about') }}">About Us</a></li>
+
+                            {{-- Products --}}
+                            <li class="has-children">
+                                <a href="#">Products</a>
+                                <ul class="menu">
+                                    @foreach($headerCategories as $category)
+                                        <li class="menu-item has-dropdown">
+                                            <a href="{{ route('products.listing', $category->slug) }}">
+                                                {{ $category->name }}
+                                            </a>
+
+                                            {{-- Subcategories --}}
+                                            @if($category->subcategories->count())
+                                                <ul class="submenu">
+                                                    @foreach($category->subcategories as $subcategory)
+                                                        <li class="menu-item {{ $subcategory->subSubCategories->count() ? 'has-dropdown' : '' }}">
+                                                            <a href="{{ route('products.subcategory', [$category->slug, $subcategory->slug]) }}">
+                                                                {{ $subcategory->name }}
+                                                            </a>
+
+                                                            {{-- Sub-subcategories --}}
+                                                            @if($subcategory->subSubCategories->count())
+                                                                <ul class="submenu">
+                                                                    @foreach($subcategory->subSubCategories as $subsubcategory)
+                                                                        <li>
+                                                                            <a href="{{ route('products.subsubcategory', [$category->slug, $subcategory->slug, $subsubcategory->slug]) }}">
+                                                                                {{ $subsubcategory->name }}
+                                                                            </a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+
+                            <li><a href="{{ url('/services') }}">Services</a></li>
+                            <li><a href="{{ url('/downloads') }}">Downloads</a></li>
+                            <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                        </ul>
+                    </nav>
+
+                    {{-- Burger Icon (Mobile Toggle) --}}
+                    <div class="burger-icon burger-icon-white">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+
+                {{-- Right Section --}}
+                <div class="header-shop">
+                    <div class="d-inline-block box-dropdown-cart">
+                        <span class="font-lg icon-list icon-account"><span>Brands</span></span>
+                    </div>
+                    <a class="font-lg icon-list icon-wishlist" href="#"><span>Promotions</span></a>
+                </div>
+                <a class="font-lg icon-list icon-compare" href="#"><span>News</span></a>
+            </div>
+        </div>
+    </div>
+</header>
+
+{{-- Mobile Menu --}}
+<div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-content-area">
+            <div class="mobile-header-info-wrap">
+                <div class="mobile-logo">
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('assets/imgs/template/logo.png') }}" alt="logo">
+                    </a>
+                </div>
+                <div class="mobile-close close-mobile-header">
+                    <i class="icon-x"></i>
+                </div>
+            </div>
+
+            <div class="mobile-header-menu">
+                <ul class="main-menu">
+                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li><a href="{{ url('/about') }}">About Us</a></li>
+
+                    {{-- Products --}}
+                    <li class="has-children">
+                        <a href="#">Products</a>
+                        <ul class="submenu">
+                            @foreach($headerCategories as $category)
+                                <li class="{{ $category->subcategories->count() ? 'has-children' : '' }}">
+                                    <a href="{{ route('products.listing', $category->slug) }}">{{ $category->name }}</a>
+
+                                    @if($category->subcategories->count())
+                                        <ul class="submenu">
+                                            @foreach($category->subcategories as $subcategory)
+                                                <li class="{{ $subcategory->subSubCategories->count() ? 'has-children' : '' }}">
+                                                    <a href="{{ route('products.subcategory', [$category->slug, $subcategory->slug]) }}">
+                                                        {{ $subcategory->name }}
+                                                    </a>
+
+                                                    @if($subcategory->subSubCategories->count())
+                                                        <ul class="submenu">
+                                                            @foreach($subcategory->subSubCategories as $subsubcategory)
+                                                                <li>
+                                                                    <a href="{{ route('products.subsubcategory', [$category->slug, $subcategory->slug, $subsubcategory->slug]) }}">
+                                                                        {{ $subsubcategory->name }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+
+                    <li><a href="{{ url('/services') }}">Services</a></li>
+                    <li><a href="{{ url('/downloads') }}">Downloads</a></li>
+                    <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
