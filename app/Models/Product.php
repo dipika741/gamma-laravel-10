@@ -47,7 +47,7 @@ class Product extends Model
 
     public function thumbnail()
     {
-        return $this->hasOne(ProductImage::class)->where('is_thumbnail', true);
+        return $this->hasOne(ProductImage::class)->ofMany('id', 'min')->where('is_thumbnail', true);
     }
 
     public function seoData()

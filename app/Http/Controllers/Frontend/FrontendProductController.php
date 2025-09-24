@@ -7,6 +7,7 @@ use App\Models\Subcategory;
 use App\Models\SubSubCategory;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Str;
 
 class FrontendProductController extends Controller
 {
@@ -56,13 +57,32 @@ class FrontendProductController extends Controller
     {       
         // find category
         $category = Category::where('slug', $categorySlug)->firstOrFail();
+        //dd(vars: $category->id);
+        \DB::enableQueryLog();
 
-    $product = Product::with(['seoData', 'thumbnail', 'images'])
+    $product = Product::with(['seoData', 'images', 'thumbnail'])
         ->where('slug', $productSlug)
         ->where('category_id', $category->id)
         ->firstOrFail();
 
-    return view('products.show', compact('product'));
+        
+        //dd(\DB::getQueryLog());
+        // dd($product->images);
+        // Build canonical URL
+        $meta = [
+            'title' => $product->seoData->meta_title ?? $product->name,
+            'description' => $product->seoData->meta_description ?? Str::limit($product->description, 160),
+            'keywords' => $product->seoData->meta_keywords ?? '',
+            'canonical' => route('product.showcategoryslugonly', [
+                'categorySlug' => $product->category->slug,
+                'productSlug' => $product->slug,
+            ]),
+            'type' => 'product',
+            'image' => $product->main_image_url,
+        ];
+//dd(vars: $meta);
+
+    return view('products.show', compact('product','meta'));
     }
     
 
