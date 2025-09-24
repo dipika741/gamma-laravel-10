@@ -2,8 +2,8 @@
 
 <title>{{ $meta['title'] ?? config('app.name') }}</title>
 
-<meta name="description" content="{{ $meta['description'] ?? 'Default site description here' }}">
-<meta name="keywords" content="{{ $meta['keywords'] ?? 'default,keywords,here' }}">
+<meta name="description" content="{{ $meta['description'] ?? 'high-quality pharmaceutical laboratory products and manufacturing solutions ' }}">
+<meta name="keywords" content="{{ $meta['keywords'] ?? 'pharmaceutical reference standards, impurities, columns, consumables, various instruments, chemical equipment' }}">
 <link rel="canonical" href="{{ $meta['canonical'] ?? url()->current() }}">
 
 {{-- Open Graph / Facebook --}}
